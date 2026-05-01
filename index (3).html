@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MuhLK School Digital</title>
+    <link rel="icon" href="https://i.ibb.co.com/TJxCL6V/download.jpg">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .hidden { display: none !important; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #c7c7cc; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #a1a1aa; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 font-sans min-h-screen flex flex-col">
+    <!-- Header -->
+    <header class="bg-indigo-600 text-white p-4 shadow-md flex justify-between items-center sticky top-0 z-40">
+        <div class="flex items-center gap-3">
+            <img src="https://i.ibb.co.com/TJxCL6V/download.jpg" alt="Logo" class="w-10 h-10 rounded-full bg-white object-cover">
+            <h1 class="text-lg md:text-xl font-bold">MuhLK School Digital</h1>
+        </div>
+        <div id="user-info" class="hidden flex items-center gap-3">
+            <div class="text-right hidden md:block">
+                <div id="user-name-display" class="font-medium text-sm"></div>
+                <div id="user-role-badge" class="text-xs text-indigo-200 font-bold"></div>
+            </div>
+            <button id="btn-profile" class="bg-blue-500 hover:bg-blue-600 px-3 py-1.5 rounded text-sm font-medium transition shadow">Profil</button>
+            <button id="btn-logout" class="bg-red-500 hover:bg-red-600 px-3 py-1.5 rounded text-sm font-medium transition shadow">Logout</button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow p-4 md:p-8 w-full max-w-7xl mx-auto">
+        <!-- View: Login -->
+        <div id="view-login" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl mt-10 border border-gray-100">
+            <div class="text-center mb-8">
+                <img src="https://i.ibb.co.com/TJxCL6V/download.jpg" alt="Logo" class="w-20 h-20 mx-auto rounded-full mb-4 shadow-md">
+                <h2 class="text-2xl font-bold text-gray-800">Selamat Datang</h2>
+                <p class="text-gray-500 text-sm">Silakan login untuk melanjutkan</p>
+            </div>
+            
+            <div class="mb-6 border-b pb-6">
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Akses Guru</h3>
+                <input type="email" id="guru-email" placeholder="Email Guru" class="w-full mb-3 p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                <input type="password" id="guru-password" placeholder="Password" class="w-full mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition">
+                <button id="btn-login-guru" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold transition shadow-md">Login sebagai Guru</button>
+            </div>
+
+            <div>
+                <h3 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-4">Akses Murid</h3>
+                <button id="btn-login-murid" class="w-full bg-white border-2 border-gray-200 hover:bg-gray-50 text-gray-700 p-3 rounded-lg flex items-center justify-center gap-3 font-semibold transition shadow-sm">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+                    Login dengan Google
+                </button>
+            </div>
+        </div>
+
+        <!-- View: Profile -->
+        <div id="view-profile" class="hidden max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl mt-10 border border-gray-100">
+            <h2 class="text-2xl font-bold text-center mb-4 text-indigo-900">Profil Pengguna</h2>
+            <div class="mb-6 text-center">
+                <span id="profile-tag" class="bg-indigo-100 text-indigo-800 text-xs px-4 py-1.5 rounded-full font-bold uppercase tracking-wide border border-indigo-200 shadow-sm"></span>
+            </div>
+            
+            <!-- Guru Info -->
+            <div id="profile-guru-info" class="hidden text-center">
+                <p class="text-gray-500 text-sm mb-1">Nama Lengkap</p>
+                <p class="text-xl font-bold text-gray-800 bg-gray-50 p-3 rounded-lg border border-gray-200">Guru SmpMuhLK</p>
+                <button id="btn-back-guru" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold transition shadow-md">Kembali ke Dashboard</button>
+            </div>
+
+            <!-- Murid Info -->
+            <div id="profile-murid-info" class="hidden">
+                <p class="text-gray-500 mb-4 text-sm text-center">Silakan masukkan/ubah nama lengkap Anda agar sesuai di daftar nilai Guru.</p>
+                <input type="text" id="profile-murid-name" placeholder="Nama Lengkap" class="w-full mb-4 p-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <button id="btn-save-profile-murid" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-lg font-semibold transition shadow-md mb-3">Simpan Profil</button>
+                <button id="btn-back-murid" class="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 p-3 rounded-lg font-semibold transition hidden">Kembali ke Dashboard</button>
+            </div>
+        </div>
+
+        <!-- View: Guru Dashboard -->
+        <div id="view-guru" class="hidden grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Form Input Materi -->
+            <div class="lg:col-span-1 bg-white p-6 rounded-2xl shadow-lg border border-gray-100 h-fit">
+                <h2 class="text-xl font-bold mb-4 border-b pb-3 text-indigo-900">Buat Materi / Kuis</h2>
+                
+                <label class="block mb-1.5 font-semibold text-sm text-gray-700">Mata Pelajaran</label>
+                <select id="guru-mapel" class="w-full mb-4 p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+                    <option value="TIK">TIK</option>
+                    <option value="IPS">IPS</option>
+                    <option value="IPA">IPA</option>
+                    <option value="PJOK">PJOK</option>
+                    <option value="KEMUHAMMADIYAHAN">KEMUHAMMADIYAHAN</option>
+                    <option value="PPKN">PPKN</option>
+                    <option value="B.INDO">B.INDO</option>
+                    <option value="B.INGGRIS">B.INGGRIS</option>
+                    <option value="AGAMA">AGAMA</option>
+                    <option value="BAHASA ARAB">BAHASA ARAB</option>
+                </select>
+
+                <label class="block mb-1.5 font-semibold text-sm text-gray-700">Instruksi / Materi</label>
+                <textarea id="guru-instruksi" rows="4" class="w-full mb-4 p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500" placeholder="Jelaskan materi atau instruksi tugas..."></textarea>
+
+                <label class="block mb-1.5 font-semibold text-sm text-gray-700">Link Gambar (Opsional)</label>
+                <input type="url" id="guru-gambar-link" placeholder="Copy-paste link gambar dari ImgBB di sini..." class="w-full mb-1 p-2.5 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500">
+                <p class="text-xs text-gray-400 mb-5 italic">* Masukkan link langsung ke gambar (contoh: https://i.ibb.co/...).</p>
+
+                <div class="mb-5 border border-gray-200 p-4 rounded-xl bg-gray-50/50">
+                    <h3 class="font-bold text-sm mb-3 text-indigo-800">Soal Pilihan Ganda</h3>
+                    <input type="text" id="guru-pg-q" placeholder="Pertanyaan Pilihan Ganda" class="w-full mb-3 p-2.5 bg-white border border-gray-200 rounded-lg text-sm">
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <input type="text" id="guru-pg-a" placeholder="Opsi A" class="w-full p-2 bg-white border border-gray-200 rounded-lg text-sm">
+                        <input type="text" id="guru-pg-b" placeholder="Opsi B" class="w-full p-2 bg-white border border-gray-200 rounded-lg text-sm">
+                        <input type="text" id="guru-pg-c" placeholder="Opsi C" class="w-full p-2 bg-white border border-gray-200 rounded-lg text-sm">
+                        <input type="text" id="guru-pg-d" placeholder="Opsi D" class="w-full p-2 bg-white border border-gray-200 rounded-lg text-sm">
+                    </div>
+                    <select id="guru-pg-ans" class="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm font-medium">
+                        <option value="">Pilih Kunci Jawaban...</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                        <option value="D">D</option>
+                    </select>
+                </div>
+
+                <div class="mb-6 border border-gray-200 p-4 rounded-xl bg-gray-50/50">
+                    <h3 class="font-bold text-sm mb-3 text-indigo-800">Soal Esai</h3>
+                    <input type="text" id="guru-esai-q" placeholder="Pertanyaan Esai" class="w-full p-2.5 bg-white border border-gray-200 rounded-lg text-sm">
+                </div>
+
+                <button id="btn-post-task" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white p-3 rounded-xl transition font-bold shadow-md">Posting Materi</button>
+            </div>
+
+            <!-- Monitoring -->
+            <div class="lg:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-bold mb-4 border-b pb-3 text-indigo-900">Monitoring Real-time (Materi & Nilai)</h2>
+                    <div id="guru-tasks-list" class="space-y-4 max-h-[700px] overflow-y-auto pr-2">
+                        <p class="text-gray-500 text-sm text-center py-4">Memuat data...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- View: Murid Dashboard -->
+        <div id="view-murid" class="hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <!-- Daftar Tugas -->
+            <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                <h2 class="text-xl font-bold mb-4 border-b pb-3 text-indigo-900">Tugas & Materi Tersedia</h2>
+                <div id="murid-tasks-list" class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+                    <p class="text-gray-500 text-sm text-center py-4">Memuat data...</p>
+                </div>
+            </div>
+
+            <!-- Pengerjaan & Riwayat -->
+            <div class="space-y-6">
+                <div id="murid-do-task" class="bg-white p-6 rounded-2xl shadow-lg border border-indigo-200 hidden relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-full h-1 bg-indigo-500"></div>
+                    <h2 class="text-xl font-bold mb-4 border-b pb-3 text-indigo-900" id="do-task-title">Kerjakan Tugas</h2>
+                    <div id="do-task-content" class="mb-4 text-sm text-gray-700 whitespace-pre-wrap leading-relaxed"></div>
+                    
+                    <div id="do-task-img-container" class="mb-6 hidden">
+                        <img id="do-task-img" src="" class="max-w-full h-48 object-cover rounded-xl cursor-pointer border shadow-sm hover:opacity-90 transition" onclick="openModal(this.src)" alt="Media Tugas">
+                        <p class="text-xs text-gray-400 mt-1 italic text-center">Klik gambar untuk memperbesar</p>
+                    </div>
+                    
+                    <div id="do-task-pg" class="mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200 hidden">
+                        <p class="font-bold text-sm mb-3 text-gray-800" id="do-pg-q"></p>
+                        <div class="space-y-2 text-sm" id="do-pg-options"></div>
+                    </div>
+
+                    <div id="do-task-esai" class="mb-6 bg-gray-50 p-4 rounded-xl border border-gray-200 hidden">
+                        <p class="font-bold text-sm mb-3 text-gray-800" id="do-esai-q"></p>
+                        <textarea id="do-esai-ans" rows="4" class="w-full p-3 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:outline-none" placeholder="Tulis jawaban esai Anda di sini..."></textarea>
+                    </div>
+
+                    <div class="flex gap-3">
+                        <button id="btn-submit-task" class="flex-1 bg-green-600 hover:bg-green-700 text-white p-3 rounded-xl transition font-bold shadow-md">Kumpulkan</button>
+                        <button id="btn-cancel-task" class="bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-xl transition font-bold">Batal</button>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <h2 class="text-xl font-bold mb-4 border-b pb-3 text-indigo-900">Riwayat Pengerjaan & Nilai</h2>
+                    <div id="murid-history-list" class="space-y-3 max-h-[300px] overflow-y-auto pr-2">
+                        <p class="text-gray-500 text-sm text-center py-4">Belum ada riwayat tugas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white text-center p-8 mt-auto">
+        <p class="mb-2 font-medium">&copy; <span id="current-year"></span> MuhLK School Digital. Hak Cipta Dilindungi.</p>
+        <p class="text-sm text-gray-400 mb-6">Dev Website: Hijrah Abdur Rahman</p>
+        <a href="mailto:contact@muhlk.edu" class="inline-block bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full text-sm font-medium transition shadow-lg">Hubungi Kami</a>
+    </footer>
+
+    <!-- Image Modal -->
+    <div id="img-modal" class="fixed inset-0 bg-black/90 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <span class="absolute top-6 right-8 text-white text-4xl cursor-pointer hover:text-gray-400 transition" onclick="closeModal()">&times;</span>
+        <img id="modal-img" class="max-w-full max-h-[90vh] rounded-lg shadow-2xl border border-gray-700">
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logout-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4 backdrop-blur-sm transition-opacity">
+        <div class="bg-white p-8 rounded-2xl shadow-2xl max-w-sm w-full text-center border border-gray-100">
+            <h3 class="text-xl font-bold mb-2 text-gray-800">Konfirmasi Keluar</h3>
+            <p class="text-gray-500 text-sm mb-6">Yakin ingin keluar dari akun?</p>
+            <div class="flex gap-3 justify-center">
+                <button id="btn-confirm-logout" class="flex-1 bg-red-500 hover:bg-red-600 text-white px-5 py-2.5 rounded-lg font-bold shadow-md transition">Keluar Akun</button>
+                <button id="btn-cancel-logout" class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2.5 rounded-lg font-bold transition">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDK & Logic -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, query, onSnapshot, doc, setDoc, getDoc, getDocs, orderBy, where, serverTimestamp, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyBmdfYx4LPeHty7GdKWiwzzJDs4X7QT7yE",
+            authDomain: "muhlkschool-digital.firebaseapp.com",
+            projectId: "muhlkschool-digital",
+            storageBucket: "muhlkschool-digital.firebasestorage.app",
+            messagingSenderId: "1080670249576",
+            appId: "1:1080670249576:web:f7943cacc8933db7cc91dd",
+            measurementId: "G-0PR9JVL8FK"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Make delete and save score available globally
+        window.deleteTask = async (taskId) => {
+            if(confirm("Apakah Anda yakin ingin menghapus materi/tugas ini secara permanen?")) {
+                try {
+                    await deleteDoc(doc(db, "tasks", taskId));
+                    alert("Tugas berhasil dihapus.");
+                } catch (e) {
+                    alert("Gagal menghapus: " + e.message);
+                }
+            }
+        };
+
+        window.saveEsaiScore = async (submissionId) => {
+            const scoreInput = document.getElementById(`esai-score-${submissionId}`).value;
+            if(scoreInput === '') return alert("Masukkan nilai terlebih dahulu!");
+            try {
+                await setDoc(doc(db, "submissions", submissionId), { 
+                    esaiScore: Number(scoreInput),
+                    status_koreksi: "Sudah Dinilai"
+                }, { merge: true });
+                alert("Nilai esai berhasil disimpan!");
+            } catch (e) {
+                alert("Gagal menyimpan nilai: " + e.message);
+            }
+        };
+
+        // DOM Elements
+        const viewLogin = document.getElementById('view-login');
+        const viewProfile = document.getElementById('view-profile');
+        const viewGuru = document.getElementById('view-guru');
+        const viewMurid = document.getElementById('view-murid');
+        const userInfo = document.getElementById('user-info');
+        const userNameDisplay = document.getElementById('user-name-display');
+        const userRoleBadge = document.getElementById('user-role-badge');
+        
+        let currentUser = null;
+        let activeTask = null;
+
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        window.openModal = (src) => {
+            document.getElementById('modal-img').src = src;
+            document.getElementById('img-modal').classList.remove('hidden');
+        };
+        window.closeModal = () => {
+            document.getElementById('img-modal').classList.add('hidden');
+        };
+
+        function showView(view) {
+            [viewLogin, viewProfile, viewGuru, viewMurid].forEach(v => v.classList.add('hidden'));
+            view.classList.remove('hidden');
+        }
+
+        // Auth State Observer with Role Logic
+        onAuthStateChanged(auth, async (user) => {
+            if (user) {
+                const providerId = user.providerData[0]?.providerId;
+                const role = providerId === 'password' ? 'guru' : 'murid';
+                const userRef = doc(db, "users", user.uid);
+                let userDoc = await getDoc(userRef);
+                let data;
+
+                if (!userDoc.exists()) {
+                    data = {
+                        email: user.email,
+                        role: role,
+                        name: role === 'guru' ? 'Guru SmpMuhLK' : 'murid smpmuhlk'
+                    };
+                    await setDoc(userRef, data);
+                } else {
+                    data = userDoc.data();
+                    let updated = false;
+                    if (data.role !== role) {
+                        data.role = role;
+                        updated = true;
+                    }
+                    if (role === 'guru' && data.name !== 'Guru SmpMuhLK') {
+                        data.name = 'Guru SmpMuhLK';
+                        updated = true;
+                    }
+                    if (updated) {
+                        await setDoc(userRef, { role: data.role, name: data.name }, { merge: true });
+                    }
+                }
+
+                currentUser = user;
+                userInfo.classList.remove('hidden');
+                userNameDisplay.textContent = data.name;
+                userRoleBadge.textContent = role === 'guru' ? 'Guru Smp MuhLk' : 'Murid Smp MuhLk';
+                
+                if (role === 'guru') {
+                    showView(viewGuru);
+                    loadGuruTasks();
+                } else {
+                    if (!data.name || data.name.toLowerCase() === 'murid smpmuhlk') {
+                        openProfile();
+                        document.getElementById('btn-back-murid').classList.add('hidden');
+                    } else {
+                        showView(viewMurid);
+                        loadMuridTasks();
+                        loadMuridHistory();
+                    }
+                }
+            } else {
+                currentUser = null;
+                userInfo.classList.add('hidden');
+                showView(viewLogin);
+            }
+        });
+
+        // Login Methods
+        document.getElementById('btn-login-guru').addEventListener('click', () => {
+            const email = document.getElementById('guru-email').value;
+            const pass = document.getElementById('guru-password').value;
+            if(!email || !pass) return alert("Harap isi email dan password!");
+            signInWithEmailAndPassword(auth, email, pass).catch(err => alert("Login Guru gagal: " + err.message));
+        });
+
+        document.getElementById('btn-login-murid').addEventListener('click', () => {
+            const provider = new GoogleAuthProvider();
+            signInWithPopup(auth, provider).catch(err => alert("Login Google gagal: " + err.message));
+        });
+
+        // Logout Logic
+        document.getElementById('btn-logout').addEventListener('click', () => {
+            document.getElementById('logout-modal').classList.remove('hidden');
+        });
+        document.getElementById('btn-cancel-logout').addEventListener('click', () => {
+            document.getElementById('logout-modal').classList.add('hidden');
+        });
+        document.getElementById('btn-confirm-logout').addEventListener('click', () => {
+            document.getElementById('logout-modal').classList.add('hidden');
+            signOut(auth);
+        });
+
+        // Profile Logic
+        function openProfile() {
+            showView(viewProfile);
+            const isGuru = currentUser.providerData[0]?.providerId === 'password';
+            const tag = isGuru ? 'Guru Smp MuhLk' : 'Murid Smp MuhLk';
+            document.getElementById('profile-tag').textContent = tag;
+
+            if (isGuru) {
+                document.getElementById('profile-guru-info').classList.remove('hidden');
+                document.getElementById('profile-murid-info').classList.add('hidden');
+            } else {
+                document.getElementById('profile-guru-info').classList.add('hidden');
+                document.getElementById('profile-murid-info').classList.remove('hidden');
+                document.getElementById('profile-murid-name').value = userNameDisplay.textContent.toLowerCase() === 'murid smpmuhlk' ? '' : userNameDisplay.textContent;
+                
+                if (userNameDisplay.textContent.toLowerCase() !== 'murid smpmuhlk' && userNameDisplay.textContent !== '') {
+                    document.getElementById('btn-back-murid').classList.remove('hidden');
+                } else {
+                    document.getElementById('btn-back-murid').classList.add('hidden');
+                }
+            }
+        }
+
+        document.getElementById('btn-profile').addEventListener('click', openProfile);
+
+        document.getElementById('btn-back-guru').addEventListener('click', () => showView(viewGuru));
+        document.getElementById('btn-back-murid').addEventListener('click', () => showView(viewMurid));
+
+        document.getElementById('btn-save-profile-murid').addEventListener('click', async () => {
+            const newName = document.getElementById('profile-murid-name').value.trim();
+            if (!newName) return alert("Nama lengkap wajib diisi!");
+            if (newName.toLowerCase() === 'murid smpmuhlk') return alert("Silakan gunakan nama asli Anda, bukan 'murid smpmuhlk'!");
+            
+            const btn = document.getElementById('btn-save-profile-murid');
+            btn.disabled = true;
+            btn.textContent = "Menyimpan...";
+
+            try {
+                await setDoc(doc(db, "users", currentUser.uid), { name: newName }, { merge: true });
+                
+                // Sinkronisasi nama ke riwayat pengerjaan agar guru melihat nama terbaru
+                const subQ = query(collection(db, "submissions"), where("studentId", "==", currentUser.uid));
+                const subSnap = await getDocs(subQ);
+                const updatePromises = [];
+                subSnap.forEach((docSnap) => {
+                    updatePromises.push(setDoc(docSnap.ref, { studentName: newName }, { merge: true }));
+                });
+                await Promise.all(updatePromises);
+
+                userNameDisplay.textContent = newName;
+                document.getElementById('btn-back-murid').classList.remove('hidden');
+                showView(viewMurid);
+                loadMuridTasks();
+                loadMuridHistory();
+                alert("Profil berhasil diperbarui!");
+            } catch(err) {
+                alert("Gagal menyimpan profil: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Simpan Profil";
+            }
+        });
+
+        // Post Task (Guru)
+        document.getElementById('btn-post-task').addEventListener('click', async () => {
+            const btn = document.getElementById('btn-post-task');
+            const instruksi = document.getElementById('guru-instruksi').value.trim();
+            if(!instruksi) return alert("Instruksi/Materi tidak boleh kosong!");
+
+            btn.disabled = true;
+            btn.innerHTML = `<svg class="animate-spin h-5 w-5 mx-auto text-white" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>`;
+
+            try {
+                const mapel = document.getElementById('guru-mapel').value;
+                const imageUrl = document.getElementById('guru-gambar-link').value.trim();
+
+                const pgQ = document.getElementById('guru-pg-q').value.trim();
+                const pgAns = document.getElementById('guru-pg-ans').value;
+                const pgData = (pgQ && pgAns) ? {
+                    q: pgQ,
+                    options: {
+                        A: document.getElementById('guru-pg-a').value,
+                        B: document.getElementById('guru-pg-b').value,
+                        C: document.getElementById('guru-pg-c').value,
+                        D: document.getElementById('guru-pg-d').value,
+                    },
+                    ans: pgAns
+                } : null;
+
+                const esaiQ = document.getElementById('guru-esai-q').value.trim();
+
+                await addDoc(collection(db, "tasks"), {
+                    mapel,
+                    instruksi,
+                    imageUrl,
+                    pg: pgData,
+                    esai: esaiQ ? { q: esaiQ } : null,
+                    timestamp: serverTimestamp(),
+                    teacherId: currentUser.uid
+                });
+
+                alert("Materi/Tugas berhasil diposting!");
+                document.querySelectorAll('#view-guru input[type="text"], #view-guru input[type="url"], #view-guru textarea').forEach(el => el.value = '');
+                document.getElementById('guru-pg-ans').value = '';
+            } catch (err) {
+                alert("Terjadi kesalahan: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Posting Materi";
+            }
+        });
+
+        // Load Tasks Real-time (Guru)
+        function loadGuruTasks() {
+            const q = query(collection(db, "tasks"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('guru-tasks-list');
+                if(snapshot.empty) return list.innerHTML = "<p class='text-gray-500 text-sm'>Belum ada materi/tugas.</p>";
+                list.innerHTML = "";
+                
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const date = data.timestamp ? data.timestamp.toDate().toLocaleString('id-ID', {dateStyle: 'medium', timeStyle: 'short'}) : 'Baru saja';
+                    
+                    const div = document.createElement('div');
+                    div.className = "border border-gray-200 p-5 rounded-xl bg-gray-50";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <span class="bg-indigo-100 text-indigo-800 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wide">${data.mapel}</span>
+                                <button class="text-red-500 text-xs font-bold hover:underline ml-3" onclick="deleteTask('${docSnap.id}')">Hapus Materi/Tugas</button>
+                            </div>
+                            <span class="text-xs font-medium text-gray-500 bg-white px-2 py-1 rounded border shadow-sm">${date}</span>
+                        </div>
+                        <p class="text-sm text-gray-800 mb-3 whitespace-pre-wrap">${data.instruksi}</p>
+                        ${data.imageUrl ? `<img src="${data.imageUrl}" class="h-24 object-cover rounded-lg cursor-pointer border shadow-sm hover:opacity-90 mb-3" onclick="openModal(this.src)">` : ''}
+                        
+                        <div class="mt-4 pt-4 border-t border-gray-200">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-2">Daftar Nilai Murid</h4>
+                            <div class="text-sm text-gray-700 bg-white p-3 rounded-lg border" id="subs-${docSnap.id}">
+                                <span class="animate-pulse text-gray-400">Memuat nilai...</span>
+                            </div>
+                        </div>
+                    `;
+                    list.appendChild(div);
+
+                    const subQ = query(collection(db, "submissions"), where("taskId", "==", docSnap.id));
+                    onSnapshot(subQ, (subSnap) => {
+                        const subContainer = document.getElementById(`subs-${docSnap.id}`);
+                        if (subSnap.empty) {
+                            subContainer.innerHTML = "<span class='text-gray-400 italic text-xs'>Belum ada yang mengerjakan.</span>";
+                            return;
+                        }
+                        let html = "<ul class='space-y-3'>";
+                        subSnap.forEach(s => {
+                            const sd = s.data();
+                            html += `
+                                <li class="flex flex-col md:flex-row md:items-start justify-between p-3 hover:bg-gray-50 rounded border border-gray-100 shadow-sm">
+                                    <div class="flex-1">
+                                        <span class="font-bold text-indigo-900">${sd.studentName}</span>
+                                        ${sd.esaiAns ? `
+                                            <div class="bg-gray-50 p-2 rounded mt-2 border border-gray-200">
+                                                <p class="text-xs text-gray-600"><span class="font-semibold">Esai:</span> ${sd.esaiAns}</p>
+                                                <div class="flex items-center gap-2 mt-2">
+                                                    <input type="number" id="esai-score-${s.id}" placeholder="Nilai (0-100)" value="${sd.esaiScore !== undefined ? sd.esaiScore : ''}" min="0" max="100" class="w-24 p-1 border border-gray-300 rounded text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                                                    <button onclick="saveEsaiScore('${s.id}')" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-xs font-semibold transition">Simpan Nilai</button>
+                                                </div>
+                                            </div>
+                                        ` : ''}
+                                    </div>
+                                    <div class="mt-2 md:mt-0 md:ml-4 flex flex-col items-end gap-1">
+                                        <span class="text-xs bg-green-100 text-green-800 px-2 py-1 rounded font-bold">PG: ${sd.pgScore || 0}</span>
+                                        ${sd.esaiAns ? `<span class="text-xs ${sd.status_koreksi === 'Sudah Dinilai' ? 'bg-blue-100 text-blue-800' : 'bg-yellow-100 text-yellow-800'} px-2 py-1 rounded font-bold">Esai: ${sd.esaiScore !== undefined ? sd.esaiScore : 'Pending'}</span>` : ''}
+                                        <span class="text-xs bg-indigo-100 text-indigo-800 px-2 py-1 rounded font-bold">Total: ${(sd.pgScore || 0) + (sd.esaiScore || 0)}</span>
+                                    </div>
+                                </li>`;
+                        });
+                        html += "</ul>";
+                        subContainer.innerHTML = html;
+                    });
+                });
+            });
+        }
+
+        // Load Tasks Real-time (Murid)
+        let muridSubmissions = [];
+        let muridTasksSnapshot = null;
+
+        function loadMuridTasks() {
+            const subQ = query(collection(db, "submissions"), where("studentId", "==", currentUser.uid));
+            onSnapshot(subQ, (subSnap) => {
+                muridSubmissions = subSnap.docs.map(d => d.data().taskId);
+                renderMuridTasks();
+            });
+
+            const q = query(collection(db, "tasks"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                muridTasksSnapshot = snapshot;
+                renderMuridTasks();
+            });
+        }
+
+        function renderMuridTasks() {
+            const list = document.getElementById('murid-tasks-list');
+            if(!muridTasksSnapshot || muridTasksSnapshot.empty) return list.innerHTML = "<p class='text-gray-500 text-sm'>Belum ada tugas tersedia.</p>";
+            list.innerHTML = "";
+
+            muridTasksSnapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                const date = data.timestamp ? data.timestamp.toDate().toLocaleString('id-ID', {dateStyle: 'medium', timeStyle: 'short'}) : 'Baru saja';
+                const isSubmitted = muridSubmissions.includes(docSnap.id);
+                
+                const div = document.createElement('div');
+                div.className = "border border-gray-200 p-5 rounded-xl bg-gray-50 hover:bg-white hover:shadow-md transition duration-200";
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="bg-indigo-100 text-indigo-800 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wide">${data.mapel}</span>
+                        <span class="text-xs font-medium text-gray-500">${date}</span>
+                    </div>
+                    <p class="text-sm text-gray-800 mb-4 line-clamp-2">${data.instruksi}</p>
+                    ${isSubmitted 
+                        ? `<button class="w-full sm:w-auto bg-gray-400 text-white text-sm px-5 py-2 rounded-lg font-medium cursor-not-allowed shadow-sm" disabled>Sudah Dikerjakan (1x)</button>`
+                        : `<button class="w-full sm:w-auto bg-indigo-600 text-white text-sm px-5 py-2 rounded-lg font-medium hover:bg-indigo-700 transition shadow-sm" onclick="startTask('${docSnap.id}')">Buka & Kerjakan</button>`
+                    }
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        // Open Task UI (Murid)
+        window.startTask = async (taskId) => {
+            const taskDoc = await getDoc(doc(db, "tasks", taskId));
+            if (!taskDoc.exists()) return;
+            activeTask = { id: taskId, ...taskDoc.data() };
+
+            document.getElementById('do-task-title').textContent = `Mata Pelajaran: ${activeTask.mapel}`;
+            document.getElementById('do-task-content').textContent = activeTask.instruksi;
+            
+            if (activeTask.imageUrl) {
+                document.getElementById('do-task-img-container').classList.remove('hidden');
+                document.getElementById('do-task-img').src = activeTask.imageUrl;
+            } else {
+                document.getElementById('do-task-img-container').classList.add('hidden');
+            }
+
+            if (activeTask.pg) {
+                document.getElementById('do-task-pg').classList.remove('hidden');
+                document.getElementById('do-pg-q').textContent = activeTask.pg.q;
+                document.getElementById('do-pg-options').innerHTML = `
+                    <label class="flex items-center gap-2 p-2 hover:bg-white rounded cursor-pointer"><input type="radio" name="pg-ans" value="A" class="w-4 h-4 text-indigo-600"> <span>A. ${activeTask.pg.options.A}</span></label>
+                    <label class="flex items-center gap-2 p-2 hover:bg-white rounded cursor-pointer"><input type="radio" name="pg-ans" value="B" class="w-4 h-4 text-indigo-600"> <span>B. ${activeTask.pg.options.B}</span></label>
+                    <label class="flex items-center gap-2 p-2 hover:bg-white rounded cursor-pointer"><input type="radio" name="pg-ans" value="C" class="w-4 h-4 text-indigo-600"> <span>C. ${activeTask.pg.options.C}</span></label>
+                    <label class="flex items-center gap-2 p-2 hover:bg-white rounded cursor-pointer"><input type="radio" name="pg-ans" value="D" class="w-4 h-4 text-indigo-600"> <span>D. ${activeTask.pg.options.D}</span></label>
+                `;
+            } else {
+                document.getElementById('do-task-pg').classList.add('hidden');
+            }
+
+            if (activeTask.esai) {
+                document.getElementById('do-task-esai').classList.remove('hidden');
+                document.getElementById('do-esai-q').textContent = activeTask.esai.q;
+                document.getElementById('do-esai-ans').value = "";
+            } else {
+                document.getElementById('do-task-esai').classList.add('hidden');
+            }
+
+            document.getElementById('murid-do-task').classList.remove('hidden');
+            document.getElementById('murid-do-task').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        document.getElementById('btn-cancel-task').addEventListener('click', () => {
+            document.getElementById('murid-do-task').classList.add('hidden');
+            activeTask = null;
+        });
+
+        // Submit Task (Murid)
+        document.getElementById('btn-submit-task').addEventListener('click', async () => {
+            if (!activeTask) return;
+            const btn = document.getElementById('btn-submit-task');
+            btn.disabled = true;
+            btn.textContent = "Memproses...";
+
+            let pgScore = 0;
+            let pgAns = null;
+            if (activeTask.pg) {
+                const selected = document.querySelector('input[name="pg-ans"]:checked');
+                if (selected) {
+                    pgAns = selected.value;
+                    if (pgAns === activeTask.pg.ans) pgScore = 100;
+                }
+            }
+
+            let esaiAns = null;
+            let status_koreksi = "Selesai"; // Default if only PG
+            
+            if (activeTask.esai) {
+                esaiAns = document.getElementById('do-esai-ans').value.trim();
+                status_koreksi = "Menunggu Penilaian";
+            }
+
+            try {
+                await addDoc(collection(db, "submissions"), {
+                    taskId: activeTask.id,
+                    studentId: currentUser.uid,
+                    studentName: userNameDisplay.textContent,
+                    mapel: activeTask.mapel,
+                    pgAns,
+                    pgScore,
+                    esaiAns,
+                    status_koreksi,
+                    timestamp: serverTimestamp()
+                });
+                alert("Tugas berhasil dikumpulkan!");
+                document.getElementById('murid-do-task').classList.add('hidden');
+                activeTask = null;
+            } catch(e) {
+                alert("Gagal mengumpulkan: " + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Kumpulkan";
+            }
+        });
+
+        // Load History Real-time (Murid)
+        function loadMuridHistory() {
+            if (!currentUser) return;
+            const q = query(collection(db, "submissions"), where("studentId", "==", currentUser.uid), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                const list = document.getElementById('murid-history-list');
+                if(snapshot.empty) return list.innerHTML = "<p class='text-gray-500 text-sm'>Belum ada riwayat pengerjaan.</p>";
+                list.innerHTML = "";
+                
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const date = data.timestamp ? data.timestamp.toDate().toLocaleString('id-ID', {dateStyle: 'medium', timeStyle: 'short'}) : 'Baru saja';
+                    const totalScore = (data.pgScore || 0) + (data.esaiScore || 0);
+                    
+                    let statusBadge = '';
+                    if(data.status_koreksi === "Menunggu Penilaian") {
+                        statusBadge = `<span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs font-bold">Menunggu Penilaian</span>`;
+                    } else if(data.status_koreksi === "Sudah Dinilai" || data.status_koreksi === "Selesai") {
+                        statusBadge = `<span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs font-bold">Sudah Dinilai</span>`;
+                    }
+
+                    const div = document.createElement('div');
+                    div.className = "border border-gray-200 p-4 rounded-xl bg-gray-50 text-sm flex flex-col gap-2";
+                    div.innerHTML = `
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="font-bold text-indigo-900 uppercase tracking-wide text-xs">${data.mapel}</span>
+                            <span class="text-xs text-gray-500 bg-white px-2 py-1 rounded border">${date}</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            ${statusBadge}
+                            <span class="font-bold text-gray-800 text-sm bg-white border px-3 py-1 rounded-lg shadow-sm">Total Nilai: ${totalScore}</span>
+                        </div>
+                        <div class="flex items-center gap-2 mt-1">
+                            <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded text-xs font-semibold">Skor PG: ${data.pgScore || 0}</span>
+                        </div>
+                        ${data.esaiAns ? `
+                        <div class="bg-white p-3 rounded border mt-2">
+                            <span class="text-xs font-semibold text-gray-500 block mb-1">Jawaban Esai:</span>
+                            <p class="text-gray-700 text-xs mb-2">${data.esaiAns}</p>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs font-semibold">Nilai Esai: ${data.esaiScore !== undefined ? data.esaiScore : 'Menunggu Penilaian'}</span>
+                        </div>` : ''}
+                    `;
+                    list.appendChild(div);
+                });
+            });
+        }
+    </script>
+</body>
+</html>
