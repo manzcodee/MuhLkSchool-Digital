@@ -1,8 +1,8 @@
-// Mengimpor library Firebase agar bisa jalan di background
+// Link library-nya harus lengkap kayak gini biar terbaca!
 importScripts('https://gstatic.com');
 importScripts('https://gstatic.com');
 
-// Konfigurasi Firebase (Sudah sesuai data kamu)
+// Konfigurasi Firebase kamu
 firebase.initializeApp({
   apiKey: "AIzaSyBmdfYx4LPeHty7GdKWiwzzJDs4X7QT7yE",
   authDomain: "://firebaseapp.com",
@@ -14,14 +14,13 @@ firebase.initializeApp({
 
 const messaging = firebase.messaging();
 
-// Menampilkan notifikasi saat tab web ditutup atau sedang buka aplikasi lain
+// Menangani notifikasi saat background
 messaging.onBackgroundMessage((payload) => {
-  console.log('Ada notifikasi masuk di background:', payload);
-  
+  console.log('Notif Background:', payload);
   const notificationTitle = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
-    icon: '/favicon.ico' // Pastikan kamu punya file ikon di root web kamu
+    icon: '/favicon.ico'
   };
 
   self.registration.showNotification(notificationTitle, notificationOptions);
